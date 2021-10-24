@@ -5,113 +5,74 @@ class Main {
   After looking at this, I think a lot of ideas can be grouped together
   */
   public static void main(String[] args) {
-    System.out.println("Hello world!");
-    Main main = new Main();
-    System.out.println(main.split(3, 2));
-    String[] arr = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-    int numTeams = 5;
-    /*ArrayList<ArrayList<String>> miles = main.splitTeamsRandom(arr, numTeams); 
+    Scanner s = new Scanner(System.in);
+    doit(s);
     
-    miles = main.milesRandomAttempt(arr, numTeams);*/
-    String[] names = {"Richard Obama","Joe Roosevelt","Donald Johnson","Brick Washington","Richard Ali","Dan Roosevelt","Joe Smith","Bill Obama","John Ali","Frank Washington","John Smith","Joe Ali","Jack Obama","Joe Roosevelt","Brick Obama"};
 
-    int[][] values = {{57,0,71,4,35},{4,45,63,71,47},{74,94,8,15,28},{11,28,19,81,72},{8,2,46,4,12},{8,1,8,76,76},{69,19,96,25,97},{90,53,28,35,34},{44,96,36,49,92},{80,80,25,49,74},{44,29,4,82,57},{31,4,27,7,96},{36,56,22,100,95},{47,64,98,25,93},{88,63,90,90,21}};
-    Person[] people = new Person[15];
-    for (int i = 0; i < 15; i++) {
-      people[i] = new Person(names[i], values[i][0], values[i][1], values[i][2], values[i][3], values[i][4]);
-    }
 
-/*
-    ArrayList<ArrayList<Person>> bestTeams = new ArrayList<ArrayList<Person>>();
-    int bestFitness = Integer.MIN_VALUE;
+  }
 
-    for (int i = 0; i < 100000; i++) {
-      ArrayList<ArrayList<Person>> teams = main.milesRandomAttempt(people, 5);
-      int fitness = main.fitness(teams);
-      if (fitness > bestFitness) {
-          bestTeams = teams;
-          bestFitness = fitness;
-      }
-      System.out.println(bestFitness);
-    }
-    for (int i = 0; i < 5; i++) {
-      System.out.print(bestTeams.get(i) + " ");
-    }
-    double[] splitTime = main.splitTime(3, 20, 10);
-    for (int i = 0; i < splitTime.length; ++i) {
-      System.out.printf("%.2f ", splitTime[i]);
-    }
-    System.out.println();
-    */
-    int iters = 0;
-    ArrayList<ArrayList<ArrayList<Person>>> creations = new ArrayList<>();
-    while(iters < 500) {
-      creations.add(main.milesRandomAttempt(people, 5));
-      int s = creations.size();
-      for(int x = 0; x < s - 1; x++) {
-        for(int y = x + 1; y < s; y++) {
-          creations.add(reproduce(creations.get(x), creations.get(y)));
+  public static void doit(Scanner s) {
+    while (true){
+      System.out.println("Welcome to Split, please choose your action");
+      System.out.println("Split Check?  Enter 1\nSplit Time?   Enter 2\nSplit Groups? Enter 3\nExit?         Enter 4");
+      int selection = -1;
+      while(s.hasNextInt()) {
+        selection = s.nextInt();
+        if (selection > 0 && selection <= 4) {
+          break;
+        } else {
+          System.out.print("Invalid selection, Please try again: ");
         }
       }
-      creations.sort(Comparator.comparingInt(x -> fitness(x)));
-      creations.subList(Math.max(0, creations.size() - 50), creations.size());
-      iters++;
-    }
-    System.out.println(creations.get(creations.size() - 1));
-  }
 
-  public double split(int price, int people) {
-    return 1.0 * price / people;
-  }
+      s.nextLine();
 
-  public ArrayList<ArrayList<String>> splitTeamsRandom(String[] arr, int numTeams) {
-    ArrayList<Integer> teams = new ArrayList<Integer>(arr.length);
-    ArrayList<ArrayList<String>> out = new ArrayList<ArrayList<String>>();
-    for (int i = 0; i < numTeams; ++i) {
-      out.add(new ArrayList<String>());
-    }
-    for (int i = 0; i < numTeams; ++i) {
-      for (int j = 0; j < arr.length / numTeams; ++j) {
-        teams.add(i);
+      System.out.print("You have selected: ");
+      switch(selection) {
+      case 1:
+        System.out.println("Split Check");
+        Utilities.splitCheck(s);
+        break;
+      case 2:
+        System.out.println("Split Time");
+        Utilities.splitTime(s);
+        break;
+      case 3:
+        System.out.println("Split Groups");
+        Utilities.splitGroups(s);
+        break;
+      case 4:
+        System.out.println("Exit Program");
+        System.out.println("Hope you enjoyed using Split!");
+        return;
+      default:
+        System.out.println("Something went wrong");
+        return;
+      }
+      System.out.println("Use another functionality? Enter 1\nExit?                      Enter 2");
+      while(s.hasNextInt()) {
+        selection = s.nextInt();
+        if (selection > 0 && selection <= 2) {
+          break;
+        } else {
+          System.out.print("Invalid selection, Please try again: ");
+        }
+      }
+      switch (selection) {
+      case 1:
+        break;
+      case 2:
+        System.out.println("Hope you enjoyed using Split!");
+        return;
+      default:
+        System.out.println("Something went wrong");
+        return;
       }
     }
-    for (int i = 0; i < arr.length % numTeams; ++i) {
-      teams.add(i); 
-    }
-    for (int i = 0; i < arr.length; ++i) {
-      int random = (int)(Math.random() * teams.size());
-      int team = teams.remove(random);
-      out.get(team).add(arr[i]);
-    }
-    return out;
   }
+
   
-  // Splits given amount of time among a given amout of tasks with added variation if necessary
-  // inputs: tasks = # of tasks, time = amount of time, variation (scale of 1 - 10) of how much variation is desired
-  // outputs: double[] time designated per task
-  public double[] splitTime(int tasks, double time, int variation) {
-    // Variation is on a scale of 0 - 10;
-    // The variation factor will determine the amount of variation in results per task
-    double equal = 1.0 * time / tasks;
-    int actualVariation = (int) (time * variation / 7);
-    double[] var = new double[tasks];
-    // make list to keep track of variation, must add to 0;
-    for (int i = 0; i < tasks; ++i) {
-      var[i] = equal;
-    }
-    for (int i = 0; i < actualVariation; ++i) {
-      // for every iteration, we take some 
-      double ran = Math.random();
-      int index = (int) (Math.random() * tasks);
-
-      int index2 = (int) (Math.random() * tasks);
-      if (var[index2] - ran > 0 && var[index] + ran < time) {
-        var[index2] -= ran;
-        var[index] += ran;
-      }
-    }
-    return var;
-  }
   
 
   public static ArrayList<ArrayList<Person>> milesRandomAttempt(Person[] arr, int numTeams) {
@@ -164,5 +125,50 @@ class Main {
       }
     }
     return pen;
+  }
+
+  public static ArrayList<ArrayList<Person>> reproduce(ArrayList<ArrayList<Person>> g1, ArrayList<ArrayList<Person>> g2) {
+    ArrayList<ArrayList<Person>> ret = new ArrayList<>();
+    HashSet<Person> taken = new HashSet<>();
+    for(int y = 0; y < g1.size(); y++) {
+      ret.add(new ArrayList<>());
+      for(int x = 0; x < g1.get(y).size(); x++) {
+        if(taken.contains(g1.get(y).get(x))) {
+          taken.add(g2.get(y).get(x));
+          ret.get(ret.size() - 1).add(g2.get(y).get(x));
+          continue;
+        } else if (taken.contains(g2.get(y).get(x))) {
+          taken.add(g1.get(y).get(x));
+          ret.get(ret.size() - 1).add(g1.get(y).get(x));
+          continue;
+        }
+        double rand = Math.random();
+        if(rand > 0.5) {
+          taken.add(g2.get(y).get(x));
+          ret.get(ret.size() - 1).add(g2.get(y).get(x));
+        } else {
+          taken.add(g1.get(y).get(x));
+          ret.get(ret.size() - 1).add(g1.get(y).get(x));
+        }
+      }
+    }
+    mutate(ret);
+    return ret;
+  }
+
+  public static void mutate(ArrayList<ArrayList<Person>> original) {
+    int prob = (2 / (original.size() * original.get(0).size()));
+    for(int y = 0; y < original.size(); y++) {
+      for(int x = 0; x < original.get(y).size(); x++) {
+        double rand = Math.random();
+        if(rand < prob) {
+          int ry = (int)(Math.random() * original.size());
+          int rx = (int)(Math.random() * original.get(ry).size());
+          Person temp = original.get(ry).get(rx);
+          original.get(ry).set(rx, original.get(y).get(x));
+          original.get(y).set(x, temp);
+        }
+      }
+    }
   }
 }

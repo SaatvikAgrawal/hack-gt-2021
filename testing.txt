@@ -1,0 +1,54 @@
+/*System.out.println("Hello world!");
+    Main main = new Main();
+    System.out.println(main.split(3, 2));
+    String[] arr = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+    int numTeams = 5;
+    ArrayList<ArrayList<String>> miles = main.splitTeamsRandom(arr, numTeams); 
+    
+    miles = main.milesRandomAttempt(arr, numTeams);
+    String[] names = {"Richard Obama","Joe Roosevelt","Donald Johnson","Brick Washington","Richard Ali","Dan Roosevelt","Joe Smith","Bill Obama","John Ali","Frank Washington","John Smith","Joe Ali","Jack Obama","Joe Roosevelt","Brick Obama"};
+
+    int[][] values = {{57,0,71,4,35},{4,45,63,71,47},{74,94,8,15,28},{11,28,19,81,72},{8,2,46,4,12},{8,1,8,76,76},{69,19,96,25,97},{90,53,28,35,34},{44,96,36,49,92},{80,80,25,49,74},{44,29,4,82,57},{31,4,27,7,96},{36,56,22,100,95},{47,64,98,25,93},{88,63,90,90,21}};
+    Person[] people = new Person[15];
+    for (int i = 0; i < 15; i++) {
+      people[i] = new Person(names[i], values[i][0], values[i][1], values[i][2], values[i][3], values[i][4]);
+    }
+
+    
+    ArrayList<ArrayList<Person>> bestTeams = new ArrayList<ArrayList<Person>>();
+    int bestFitness = Integer.MIN_VALUE;
+
+    for (int i = 0; i < 100000; i++) {
+      ArrayList<ArrayList<Person>> teams = main.milesRandomAttempt(people, 5);
+      int fitness = main.fitness(teams);
+      if (fitness > bestFitness) {
+          bestTeams = teams;
+          bestFitness = fitness;
+      }
+      System.out.println(bestFitness);
+    }
+    for (int i = 0; i < 5; i++) {
+      System.out.print(bestTeams.get(i) + " ");
+    }
+    double[] splitTime = main.splitTime(3, 20, 10);
+    for (int i = 0; i < splitTime.length; ++i) {
+      System.out.printf("%.2f ", splitTime[i]);
+    }
+    System.out.println();
+    
+    int iters = 0;
+    ArrayList<ArrayList<ArrayList<Person>>> creations = new ArrayList<>();
+    while(iters < 500) {
+      creations.add(main.milesRandomAttempt(people, 5));
+      int s = creations.size();
+      for(int x = 0; x < s - 1; x++) {
+        for(int y = x + 1; y < s; y++) {
+          creations.add(reproduce(creations.get(x), creations.get(y)));
+        }
+      }
+      creations.sort(Comparator.comparingInt(x -> fitness(x)));
+      creations.subList(Math.max(0, creations.size() - 50), creations.size());
+      iters++;
+    }
+    System.out.println(creations.get(creations.size() - 1));
+    */
