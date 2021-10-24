@@ -17,8 +17,8 @@ public class Person {
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Person && ((Person)obj).introversion == introversion && ((Person)obj).agreeableness == agreeableness && ((Person)obj).neuroticism == neuroticism && ((Person)obj).conscientiousness == conscientiousness && ((Person)obj).openness == openness;
-   }
+    return obj instanceof Person && ((Person)obj).name.equals(name) && ((Person)obj).introversion == introversion && ((Person)obj).agreeableness == agreeableness && ((Person)obj).neuroticism == neuroticism && ((Person)obj).conscientiousness == conscientiousness && ((Person)obj).openness == openness;
+  }
 
    @Override
    public int hashCode() {
